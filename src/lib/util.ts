@@ -1,18 +1,14 @@
-import fg from 'fast-glob';
-import _ from 'lodash';
+import fg from "fast-glob";
+import _ from "lodash";
 
 interface ProjectFile {
   devPath: string;
   filePath: string;
 }
 
-interface RewriteFile {
+interface RewriteRule {
   to: string;
-  from: string;
-}
-
-function getFilePath(filePath: string) {
-
+  from: RegExp;
 }
 
 function findAll<T>(source: T[], target: T): number[] {
@@ -25,21 +21,21 @@ function findAll<T>(source: T[], target: T): number[] {
   return resultIndex;
 }
 
-function parseFiles(file: string, filePaths: string[]): ProjectFile[] {
+function parseFiles(filePaths: string[]): ProjectFile[] {
   const files: ProjectFile[] = [];
   filePaths.forEach(element => {
     const devPathArray: string[] = [];
-    const pathDir = element.split('/');
-    const pagesIndex = findAll<string>(pathDir, 'pages');
+    const pathDir = element.split("/");
+    const pagesIndex = findAll<string>(pathDir, "pages");
     pagesIndex.forEach(index => {
       if (index + 1 < pathDir.length) devPathArray.push(pathDir[index + 1]);
     });
-    const devPath = _.join(devPathArray, '/');
+    const devPath = _.join(devPathArray, "/");
     files.push({
       devPath: devPath,
-      filePath: file
-    })
-  })
+      filePath: element
+    });
+  });
   return files;
 }
 
@@ -50,10 +46,14 @@ function parseFiles(file: string, filePaths: string[]): ProjectFile[] {
  * @param {string} path - @default 'pages'
  * @param {string} file - @default 'index.html'
  */
-export function GetSrcFiles(path: string, file: string) {
+export function GetSrcFiles(path: string, file: string): RewriteRule[] {
   const allFiles = fg.sync(`src/${path}/*/${file}`.replace("//", "/"));
-  const projectFiles: ProjectFile[] = parseFiles(file, allFiles);
+  const projectFiles: ProjectFile[] = parseFiles(allFiles);
   const rewrites = projectFiles.map(element => {
-
-  })
+    return {
+      to: element.filePath,
+      from: new RegExp(`^/${element.devPath}`)
+    };
+  });
+  return rewrites;
 }

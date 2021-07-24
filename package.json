@@ -1,0 +1,28 @@
+{
+  "name": "vite-mpa-plugin",
+  "version": "0.0.1",
+  "description": "custom vite mpa plugin for GoOnline",
+  "main": "dist/index.ts",
+  "author": "chipunderblade",
+  "license": "MIT",
+  "keywords": [
+    "vite",
+    "vite-plugin"
+  ],
+  "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
+    "fast-glob": "^3.2.7",
+    "lodash": "^4.17.21"
+  },
+  "peerDependencies": {
+    "vite": "^2.4.3"
+  },
+  "devDependencies": {
+    "@types/connect-history-api-fallback": "^1.3.5",
+    "@types/express-serve-static-core": "^4.17.24",
+    "@types/lodash": "^4.14.171",
+    "tsup": "^4.12.5",
+    "typescript": "^4.3.5",
+    "vite": "^2.4.3"
+  }
+}

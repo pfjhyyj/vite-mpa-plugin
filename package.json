@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "custom vite mpa plugin for GoOnline",
   "main": "dist/index.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --dts"
+  },
   "author": "chipunderblade",
   "license": "MIT",
   "keywords": [

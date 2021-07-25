@@ -21,9 +21,10 @@ function findAll<T>(source: T[], target: T): number[] {
   return resultIndex;
 }
 
-function parseFiles(filePaths: string[]): ProjectFile[] {
+function getProjectFiles(path: string, file: string): ProjectFile[] {
+  const allFiles = fg.sync(`src/**/${file}`.replace("//", "/"));
   const files: ProjectFile[] = [];
-  filePaths.forEach(element => {
+  allFiles.forEach(element => {
     const devPathArray: string[] = [];
     const pathDir = element.split("/");
     const pagesIndex = findAll<string>(pathDir, "pages");
@@ -33,27 +34,77 @@ function parseFiles(filePaths: string[]): ProjectFile[] {
     const devPath = _.join(devPathArray, "/");
     files.push({
       devPath: devPath,
-      filePath: element
+      filePath: '/' + element
     });
   });
   return files;
 }
 
 /**
- * Get all files that needed to be complied
+ * Get all rewrite rules
  *
  * @export
  * @param {string} path - @default 'pages'
  * @param {string} file - @default 'index.html'
  */
-export function GetSrcFiles(path: string, file: string): RewriteRule[] {
-  const allFiles = fg.sync(`src/${path}/*/${file}`.replace("//", "/"));
-  const projectFiles: ProjectFile[] = parseFiles(allFiles);
-  const rewrites = projectFiles.map(element => {
-    return {
-      to: element.filePath,
-      from: new RegExp(`^/${element.devPath}`)
-    };
+export function GetRewriteRules(path: string, file: string, defaultEntry: string): RewriteRule[] {
+  const projectFiles: ProjectFile[] = getProjectFiles(path, file);
+
+  let indexFile = projectFiles.find((file) => file.devPath === defaultEntry);
+  if (!indexFile) indexFile = {
+    devPath: '',
+    filePath: 'index.html'
+  }
+
+  const rewrites = [];
+  rewrites.push({
+    to: indexFile.filePath,
+    from: /^\/$/
   });
+  rewrites.push({
+    to: indexFile.filePath,
+    from: /^\/index.html$/
+  });
+
+
+  projectFiles.map(element => {
+    rewrites.push({
+      to: element.filePath,
+      from: new RegExp(`^/${element.devPath}$`)
+    });
+    rewrites.push({
+      to: element.filePath,
+      from: new RegExp(`^/${element.devPath}/$`)
+    });
+    rewrites.push({
+      to: element.filePath,
+      from: new RegExp(`^/${element.devPath}/${file}$`)
+    })
+  });
+
   return rewrites;
 }
+
+export function GetBuildInputFiles(path: string, file: string): Record<string, string> {
+  const projectFiles = getProjectFiles(path, file);
+
+  const builds: Record<string, string> = {};
+
+  projectFiles.map(element => {
+    builds[element.devPath] = element.filePath
+  })
+
+  return builds;
+}
+
+// export function GetBuildInputFiles(path: string, file: string): Record<string, string> {
+//   const projectFiles = getProjectFiles(path, file);
+
+//   const builds: Record<string, string> = {};
+
+//   projectFiles.map(element => {
+//     builds[element.devPath] = element.filePath
+//   })
+
+//   return builds;
+// }

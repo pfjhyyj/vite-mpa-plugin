@@ -1,19 +1,19 @@
-import {  Plugin, ViteDevServer } from "vite";
+import { Plugin, ViteDevServer } from "vite";
 import { MpaOptions } from "./lib/options";
 import history from "connect-history-api-fallback";
 import { Request, Response } from "express-serve-static-core";
 import { GetBuildInputFiles, GetRewriteRules } from "./lib/util";
 
 const defaultOptions: MpaOptions = {
-  file: 'index.html',
-  path: 'pages',
-  defaultEntry: 'index'
-}
+  file: "index.html",
+  path: "pages",
+  defaultEntry: "index"
+};
 
 export default function mpa(userOptions: MpaOptions = defaultOptions): Plugin {
   return {
     name: "vite-mpa-plugin",
-    enforce: 'pre',
+    enforce: "pre",
     config(config) {
       // confirm the object exists
       config.build = config.build ?? {};

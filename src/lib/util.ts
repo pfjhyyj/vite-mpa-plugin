@@ -1,7 +1,7 @@
 import fg from "fast-glob";
 import _ from "lodash";
 
-interface ProjectFile {
+export interface ProjectFile {
   devPath: string;
   filePath: string;
 }
@@ -21,7 +21,7 @@ function findAll<T>(source: T[], target: T): number[] {
   return resultIndex;
 }
 
-function getProjectFiles(path: string, file: string): ProjectFile[] {
+export function GetProjectFiles(path: string, file: string): ProjectFile[] {
   const allFiles = fg.sync(`src/**/${file}`.replace("//", "/"));
   const files: ProjectFile[] = [];
   allFiles.forEach(element => {
@@ -34,7 +34,7 @@ function getProjectFiles(path: string, file: string): ProjectFile[] {
     const devPath = _.join(devPathArray, "/");
     files.push({
       devPath: devPath,
-      filePath: '/' + element
+      filePath: "/" + element
     });
   });
   return files;
@@ -48,13 +48,13 @@ function getProjectFiles(path: string, file: string): ProjectFile[] {
  * @param {string} file - @default 'index.html'
  */
 export function GetRewriteRules(path: string, file: string, defaultEntry: string): RewriteRule[] {
-  const projectFiles: ProjectFile[] = getProjectFiles(path, file);
+  const projectFiles: ProjectFile[] = GetProjectFiles(path, file);
 
   let indexFile = projectFiles.find((file) => file.devPath === defaultEntry);
   if (!indexFile) indexFile = {
-    devPath: '',
-    filePath: 'index.html'
-  }
+    devPath: "",
+    filePath: "index.html"
+  };
 
   const rewrites = [];
   rewrites.push({
@@ -79,20 +79,20 @@ export function GetRewriteRules(path: string, file: string, defaultEntry: string
     rewrites.push({
       to: element.filePath,
       from: new RegExp(`^/${element.devPath}/${file}$`)
-    })
+    });
   });
 
   return rewrites;
 }
 
 export function GetBuildInputFiles(path: string, file: string): Record<string, string> {
-  const projectFiles = getProjectFiles(path, file);
+  const projectFiles = GetProjectFiles(path, file);
 
   const builds: Record<string, string> = {};
 
   projectFiles.map(element => {
-    builds[element.devPath] = element.filePath
-  })
+    builds[element.devPath] = element.filePath;
+  });
 
   return builds;
 }

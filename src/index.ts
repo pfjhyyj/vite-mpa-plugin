@@ -2,7 +2,7 @@ import { Plugin, UserConfig, ViteDevServer } from "vite";
 import { MpaOptions } from "./lib/options";
 import history from "connect-history-api-fallback";
 import { Request, Response } from "express-serve-static-core";
-import { GetBuildInputFiles, GetProjectFiles, GetRewriteRules, ProjectFile } from "./lib/util";
+import { GetBuildInputFiles, GetProjectFiles, GetRewriteRules } from "./lib/util";
 import shell from "shelljs";
 import path from "path";
 

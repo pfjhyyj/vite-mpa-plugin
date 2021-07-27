@@ -1,13 +1,16 @@
 {
   "name": "vite-mpa-plugin",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "custom vite mpa plugin for GoOnline",
   "main": "dist/index.ts",
   "scripts": {
-    "build": "tsup src/index.ts --dts"
+    "build": "tsup src/index.ts --dts",
+    "test:react" : "cd examples/mpa-project && yarn && yarn build",
+    "test": "yarn test:react"
   },
   "author": "chipunderblade",
   "license": "MIT",
+  "homepage": "https://github.com/pfjhyyj/vite-mpa-plugin",
   "keywords": [
     "vite",
     "vite-plugin"

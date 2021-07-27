@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "custom vite mpa plugin for GoOnline",
   "main": "dist/index.ts",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsup src/index.ts --dts",
+    "build": "tsup src/index.ts --dts --format esm,cjs",
     "test:react" : "cd examples/mpa-project && yarn && yarn build",
     "test": "yarn test:react"
   },

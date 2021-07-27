@@ -1,1 +1,1 @@
-# vite-plugin-mpa
+# vite-mpa-plugin

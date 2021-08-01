@@ -70,11 +70,11 @@ export function GetRewriteRules(path: string, file: string, defaultEntry: string
   projectFiles.map(element => {
     rewrites.push({
       to: element.filePath,
-      from: new RegExp(`^/${element.devPath}$`)
+      from: new RegExp(`^/${element.devPath}`)
     });
     rewrites.push({
       to: element.filePath,
-      from: new RegExp(`^/${element.devPath}/$`)
+      from: new RegExp(`^/${element.devPath}/`)
     });
     rewrites.push({
       to: element.filePath,

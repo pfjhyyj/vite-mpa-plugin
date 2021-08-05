@@ -1,6 +1,6 @@
 {
   "name": "vite-mpa-plugin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "custom vite mpa plugin for GoOnline",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

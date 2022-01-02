@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs",
     "test:react-dev": "cd examples/mpa-project && yarn && yarn dev",
-    "test:react": "cd examples/mpa-project && yarn && yarn build",
+    "test:react": "yarn build && cd examples/mpa-project && yarn && yarn build",
     "test": "yarn test:react"
   },
   "author": "chipunderblade",

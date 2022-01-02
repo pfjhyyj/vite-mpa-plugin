@@ -16,6 +16,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.1
         with:
+          registry-url: https://registry.npmjs.org/
           node-version: '16.x'
           always-auth: true
       - run: yarn

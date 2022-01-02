@@ -1,5 +1,5 @@
-import fg from "fast-glob";
 import _ from "lodash";
+import fg from "fast-glob";
 
 export interface ProjectFile {
   devPath: string;
@@ -21,20 +21,26 @@ function findAll<T>(source: T[], target: T): number[] {
   return resultIndex;
 }
 
-export function GetProjectFiles(path: string, file: string): ProjectFile[] {
-  const allFiles = fg.sync(`src/**/${file}`.replace("//", "/"));
+/**
+ * Get All Entry Files and parse them into ProjectFile Object
+ *
+ */
+export function GetProjectFiles(src: string, prefix: string, file: string): ProjectFile[] {
+  // Get all path to target html files
+  const allFiles = fg.sync(`${src}/**/${file}`.replace("//", "/"));
   const files: ProjectFile[] = [];
-  allFiles.forEach(element => {
+  allFiles.forEach((element: string) => {
     const devPathArray: string[] = [];
     const pathDir = element.split("/");
-    const pagesIndex = findAll<string>(pathDir, "pages");
+    // get the dev path to the file
+    const pagesIndex = findAll<string>(pathDir, prefix);
     pagesIndex.forEach(index => {
       if (index + 1 < pathDir.length) devPathArray.push(pathDir[index + 1]);
     });
     const devPath = _.join(devPathArray, "/");
     files.push({
       devPath: devPath,
-      filePath: "/" + element
+      filePath: element
     });
   });
   return files;
@@ -43,12 +49,9 @@ export function GetProjectFiles(path: string, file: string): ProjectFile[] {
 /**
  * Get all rewrite rules
  *
- * @export
- * @param {string} path - @default 'pages'
- * @param {string} file - @default 'index.html'
  */
-export function GetRewriteRules(path: string, file: string, defaultEntry: string): RewriteRule[] {
-  const projectFiles: ProjectFile[] = GetProjectFiles(path, file);
+export function GetRewriteRules(src: string, prefix: string, file: string, defaultEntry: string): RewriteRule[] {
+  const projectFiles: ProjectFile[] = GetProjectFiles(src, prefix, file);
 
   let indexFile = projectFiles.find((file) => file.devPath === defaultEntry);
   if (!indexFile) indexFile = {
@@ -58,26 +61,30 @@ export function GetRewriteRules(path: string, file: string, defaultEntry: string
 
   const rewrites = [];
   rewrites.push({
-    to: indexFile.filePath,
+    to: "/" + indexFile.filePath,
     from: /^\/$/
   });
   rewrites.push({
-    to: indexFile.filePath,
+    to: "/" + indexFile.filePath,
+    from: /^$/
+  });
+  rewrites.push({
+    to: "/" + indexFile.filePath,
     from: /^\/index.html$/
   });
 
 
   projectFiles.map(element => {
     rewrites.push({
-      to: element.filePath,
+      to: "/" + element.filePath,
       from: new RegExp(`^/${element.devPath}`)
     });
     rewrites.push({
-      to: element.filePath,
+      to: "/" + element.filePath,
       from: new RegExp(`^/${element.devPath}/`)
     });
     rewrites.push({
-      to: element.filePath,
+      to: "/" + element.filePath,
       from: new RegExp(`^/${element.devPath}/${file}$`)
     });
   });
@@ -85,8 +92,8 @@ export function GetRewriteRules(path: string, file: string, defaultEntry: string
   return rewrites;
 }
 
-export function GetBuildInputFiles(path: string, file: string): Record<string, string> {
-  const projectFiles = GetProjectFiles(path, file);
+export function GetBuildInputFiles(src: string, prefix: string, file: string): Record<string, string> {
+  const projectFiles = GetProjectFiles(src, prefix, file);
 
   const builds: Record<string, string> = {};
 
@@ -96,15 +103,3 @@ export function GetBuildInputFiles(path: string, file: string): Record<string, s
 
   return builds;
 }
-
-// export function GetBuildInputFiles(path: string, file: string): Record<string, string> {
-//   const projectFiles = getProjectFiles(path, file);
-
-//   const builds: Record<string, string> = {};
-
-//   projectFiles.map(element => {
-//     builds[element.devPath] = element.filePath
-//   })
-
-//   return builds;
-// }

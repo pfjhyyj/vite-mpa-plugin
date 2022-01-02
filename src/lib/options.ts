@@ -1,5 +1,6 @@
 export interface MpaOptions {
-  path: string;
+  src: string;
+  prefix: string;
   file: string;
   defaultEntry: string;
 }

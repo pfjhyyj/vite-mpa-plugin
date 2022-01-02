@@ -7,8 +7,9 @@ import shell from "shelljs";
 import path from "path";
 
 const defaultOptions: MpaOptions = {
+  src: "src",
+  prefix: "pages",
   file: "index.html",
-  path: "pages",
   defaultEntry: "index"
 };
 
@@ -23,14 +24,13 @@ export default function mpa(userOptions: MpaOptions = defaultOptions): Plugin {
       config.build = config.build ?? {};
       config.build.rollupOptions = config.build.rollupOptions ?? {};
 
-      config.build.rollupOptions.input = GetBuildInputFiles(userOptions.path, userOptions.file);
-      // config.build.rollupOptions.output = 
+      config.build.rollupOptions.input = GetBuildInputFiles(userOptions.src, userOptions.prefix, userOptions.file);
     },
     configureServer(server: ViteDevServer) {
       return () => {
         const handler = history({
           // verbose: true,
-          rewrites: GetRewriteRules(userOptions.path, userOptions.file, userOptions.defaultEntry)
+          rewrites: GetRewriteRules(userOptions.src, userOptions.prefix, userOptions.file, userOptions.defaultEntry)
         });
         server.middlewares.use((req, res, next) => {
           // vite sever will rewrite the url to '/index.html', reverse it to original url
@@ -46,14 +46,14 @@ export default function mpa(userOptions: MpaOptions = defaultOptions): Plugin {
       const dest = (resolvedConfig.build && resolvedConfig.build.outDir) || "dist";
       const resolve = (p: string) => path.resolve(root, p);
 
-      const buildFiles = GetProjectFiles(userOptions.path, userOptions.file);
+      const buildFiles = GetProjectFiles(userOptions.src, userOptions.prefix, userOptions.file);
 
       // 2. remove all *.html at dest root
       shell.rm("-rf", resolve(`${dest}/*.html`));
-      // 3. move src/pages/* to dest root
+      // 3. move ${src}/${prefix}/* to dest root
       buildFiles.forEach(element => {
         shell.mkdir("-p", resolve(`${dest}/${element.devPath}`));
-        shell.mv(resolve(`${dest}${element.filePath}`), resolve(`${dest}/${element.devPath}/index.html`));
+        shell.mv(resolve(`${dest}/${element.filePath}`), resolve(`${dest}/${element.devPath}/index.html`));
       });
       // 4. remove empty src dir
       shell.rm("-rf", resolve(`${dest}/src`));

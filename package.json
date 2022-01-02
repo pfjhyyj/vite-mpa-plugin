@@ -1,7 +1,7 @@
 {
   "name": "vite-mpa-plugin",
   "version": "1.0.4",
-  "description": "custom vite mpa plugin for GoOnline",
+  "description": "Yet another vite-plugin-mpa",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -10,12 +10,13 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm,cjs",
-    "test:react" : "cd examples/mpa-project && yarn && yarn build",
+    "test:react-dev": "cd examples/mpa-project && yarn && yarn dev",
+    "test:react": "cd examples/mpa-project && yarn && yarn build",
     "test": "yarn test:react"
   },
   "author": "chipunderblade",
   "license": "MIT",
-  "homepage": "https://github.com/pfjhyyj/vite-mpa-plugin",
+  "homepage": "https://github.com/pfjhyyj/vite-plugin-mpa",
   "keywords": [
     "vite",
     "vite-plugin"
@@ -27,18 +28,18 @@
     "shelljs": "^0.8.4"
   },
   "peerDependencies": {
-    "vite": "^2.4.3"
+    "vite": "^2.7.10"
   },
   "devDependencies": {
     "@types/connect-history-api-fallback": "^1.3.5",
     "@types/express-serve-static-core": "^4.17.24",
     "@types/lodash": "^4.14.171",
     "@types/shelljs": "^0.8.9",
-    "@typescript-eslint/eslint-plugin": "^4.28.4",
-    "@typescript-eslint/parser": "^4.28.4",
-    "eslint": "^7.31.0",
-    "tsup": "^4.12.5",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint": "^8.6.0",
+    "tsup": "^5.11.10",
     "typescript": "^4.3.5",
-    "vite": "^2.4.3"
+    "vite": "^2.7.10"
   }
 }

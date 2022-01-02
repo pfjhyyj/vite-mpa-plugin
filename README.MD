@@ -3,14 +3,13 @@
 ## Plugin Options
 All parameters are required!
 - Source Folder
-default: src/
+(default: src)
 - Page Prefix
-default: pages
+(default: pages)
 - File name
-default: index.html
+(default: index.html)
 - Default Entry
-default: index
-Use the dev path to set default entry.
+(default: index, Use the dev path to set default entry.)
 ## Path Pattern
 ```
 {source folder}/{page prefix}/{your page name}/{page html file}

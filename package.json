@@ -1,5 +1,5 @@
 {
-  "name": "@chipunderblade/vite-mpa-plugin",
+  "name": "@chipunderblade/vite-plugin-mpa",
   "version": "1.0.5",
   "description": "Yet another vite-plugin-mpa",
   "main": "dist/index.js",

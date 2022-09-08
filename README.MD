@@ -1,5 +1,14 @@
 # vite-mpa-plugin
 
+## Usage
+```
+return defineConfig({
+    plugins: [
+      mpa(), // must on the first
+      react(),
+    ],
+```
+
 ## Plugin Options
 All parameters are required!
 - Source Folder

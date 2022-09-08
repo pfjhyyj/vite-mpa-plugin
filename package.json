@@ -1,6 +1,6 @@
 {
   "name": "@chipunderblade/vite-plugin-mpa",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Yet another vite-plugin-mpa",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -28,7 +28,7 @@
     "shelljs": "^0.8.4"
   },
   "peerDependencies": {
-    "vite": "^2.7.10"
+    "vite": "^3.1.0"
   },
   "devDependencies": {
     "@types/connect-history-api-fallback": "^1.3.5",
@@ -38,8 +38,8 @@
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "eslint": "^8.6.0",
-    "tsup": "^5.11.10",
+    "tsup": "^6.2.3",
     "typescript": "^4.3.5",
-    "vite": "^2.7.10"
+    "vite": "^3.1.0"
   }
 }

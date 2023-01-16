@@ -1,4 +1,4 @@
-import { Plugin, UserConfig, ViteDevServer } from "vite";
+import { PluginOption, UserConfig, ViteDevServer } from "vite";
 import { MpaOptions } from "./lib/options";
 import history from "connect-history-api-fallback";
 import { Request, Response } from "express-serve-static-core";
@@ -13,7 +13,7 @@ const defaultOptions: MpaOptions = {
   defaultEntry: "index"
 };
 
-export default function mpa(userOptions: MpaOptions = defaultOptions): Plugin {
+export default function mpa(userOptions: MpaOptions = defaultOptions): PluginOption {
   let resolvedConfig: UserConfig;
   return {
     name: "vite-mpa-plugin",

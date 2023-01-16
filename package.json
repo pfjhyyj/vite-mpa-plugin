@@ -1,6 +1,6 @@
 {
   "name": "@chipunderblade/vite-plugin-mpa",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Yet another vite-plugin-mpa",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
